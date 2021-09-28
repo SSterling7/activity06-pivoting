@@ -90,7 +90,7 @@ friends_tidy <- by_speaker %>%
     names_to = "Season",
     values_to = "Words"
   )
-
+is.data.frame(friends_tidy)
 ```
 
 ### Save the dataset
@@ -102,8 +102,9 @@ We can do this by writing it to a file within our directory.
 2. Call the file that is being created "`friends_tidy.csv`".
 3. Name your code chunk `writing_file`
 
-
-
+```{r writing_file}
+write_csv(friends_tidy, here::here("data","friends_tidy.csv"))
+```
 
 Inspect that this file was created by looking in the `data` project folder in the **Files** pane.
 You should see three files: `by_speaker.csv`, `by_season.csv`, and `friends_tidy.csv`.
@@ -120,8 +121,9 @@ This is the same information that we were just worked with, but structured in a 
 2. Assign this data file into meaningful objects.
 3. Name this code chunk `read_season_file`.
 
-
-
+```{r read_season_file}
+by_season <- read.csv(here::here("data", "by_season.csv"))
+```
 
 Now, 
 
@@ -129,15 +131,26 @@ Now,
 2. Assign it to an object called `speaker_tidy`, and
 3. Name the code chunk `pivot_speaker`.
 
-
-
+```{r pivot_speaker}
+speaker_tidy <- by_season %>% 
+  pivot_longer(
+    cols = 2:7,
+    names_to = "Speaker",
+    values_to = "Words"
+  )
+```
 
 #### Total words spoken
 
 Using `by_season` and your skills from past activities, write the code that computes the total number of words spoken by each season and the total words spoken across the series (challenge, can you display this information in one table?).
 Name this code chunk `season_summary`.
 
-
+```{r season_summary}
+by_season %>% 
+  mutate(
+    total = sum(c_across(2:7))
+    )
+```
 
 Using `by_speaker` and your skills from past activities, write the code that computes the total number of words spoken by each season and the total words spoken across the series (challenge, can you display this information in one table?).
 Name this code chunk `speaker_summary`.
